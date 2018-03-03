@@ -1,3 +1,4 @@
+__precompile__()
 module VegaDatasets
 
 using DataFrames, JSON, TextParse
