@@ -17,6 +17,12 @@ matrix:
  allow_failures:
  - julia: nightly
 
+branches:
+  only:
+  - master
+  - /release-.*/
+  - /v(\d+)\.(\d+)\.(\d+)/
+
 ## uncomment and modify the following lines to manually install system packages
 #addons:
 #  apt: # apt-get for linux
