@@ -1,5 +1,10 @@
 using VegaDatasets
+using DataFrames
 using Base.Test
 
-# write your own tests here
-@test 1 == 2
+@testset "VegaDatasets" begin
+
+df = dataset("iris")
+
+@test isa(df, DataFrame)
+end
