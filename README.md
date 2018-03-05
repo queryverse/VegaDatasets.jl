@@ -18,7 +18,7 @@ You can install this package from the julia REPL with the following
 command:
 
 ````julia
-Pkg.add("https://github.com/davidanthoff/VegaDatasets.jl.git")
+Pkg.clone("https://github.com/davidanthoff/VegaDatasets.jl.git")
 ````
 
 ## Getting started
