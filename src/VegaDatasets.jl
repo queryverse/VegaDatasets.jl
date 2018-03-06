@@ -1,7 +1,7 @@
 __precompile__()
 module VegaDatasets
 
-using DataFrames, JSON, TextParse
+using DataFrames, JSON, TextParse, Missings
 
 export dataset
 
@@ -10,21 +10,24 @@ function dataset(name::AbstractString)
     csv_filename = joinpath(@__DIR__,"..","data","data", "$name.csv")
     if isfile(json_filename)
         json_data = JSON.parsefile(json_filename)
-        colnames = collect(Symbol(i) for i in keys(json_data[1]))
 
+        #Iterate over all JSON elements, get keys, then take distinct keys
+        colnames = unique(vcat([collect(keys(d)) for d in json_data]...))
+
+        #Get column types
         coltypes = Type[]
         for col in colnames
-            col_type = typeof(json_data[1][String(col)])
+            col_type = typeof(get(json_data[1], col, Missings.missing))
             for row in 2:length(json_data)
-                col_type = Base.promote_type(col_type, typeof(json_data[row][String(col)]))
+                col_type = Base.promote_type(col_type, typeof(get(json_data[row], col, Missings.missing)))
             end
             push!(coltypes, col_type)
         end
 
-        df = DataFrame(coltypes, colnames, 0)
+        df = DataFrame(coltypes, convert(Vector{Symbol}, colnames), 0)
 
         for row in json_data
-            push!(df, ( [row[String(col)] for col in colnames]... ))
+            push!(df, ( [get(row, col, Missings.missing) for col in colnames]... ))
         end
         return df
     elseif isfile(csv_filename)
