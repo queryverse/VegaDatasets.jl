@@ -14,4 +14,12 @@ df2 = dataset("airports")
 
 @test_throws ErrorException dataset("doesnotexist")
 
+df3 = dataset("weather.csv")
+
+@test isa(df3, DataFrame)
+
+df4 = dataset("weather.json")
+
+@test isa(df4, DataFrame)
+
 end
