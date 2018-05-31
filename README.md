@@ -18,16 +18,36 @@ You can install this package from the julia REPL with the following
 command:
 
 ````julia
-Pkg.clone("https://github.com/davidanthoff/VegaDatasets.jl.git")
+Pkg.add("VegaDatasets")
 ````
 
 ## Getting started
 
 The package only exports one function that takes the name of a dataset
-and returns a ``DataFrame`` with that data:
+and returns a ``VegaDataset`` with that data:
 
 ````julia
 using VegaDatasets
 
-df = dataset("iris")
+vg = dataset("iris")
+````
+
+``VegaDataset`` implements the [iterable tables](https://github.com/davidanthoff/IterableTables.jl)
+interface, so it can be passed to any sink that accepts iterable tables.
+
+For example, to convert a dataset into a ``DataFrame``, you can write:
+
+````julia
+using VegaDatasets, DataFrames
+
+df = DataFrame(dataset("iris"))
+````
+
+You can pipe a ``VegaDataset`` directly into a [VegaLite.jl](https://github.com/fredo-dedup/VegaLite.jl)
+plot:
+
+````julia
+using VegaLite, VegaDatasets
+
+dataset("iris") |> @vlplot(:point, x=:sepalLength, y=:petalWidth)
 ````
