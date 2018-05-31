@@ -14,6 +14,10 @@ end
 IteratorInterfaceExtensions.isiterable(x::VegaDataset) = true
 TableTraits.isiterabletable(x::VegaDataset) = true
 
+function Base.collect(vd::VegaDataset)
+    return collect(getiterator(vd))
+end
+
 function TableTraits.getiterator(file::VegaDataset)
     it = TableTraitsUtils.create_tableiterator(collect(values(file.data)), collect(keys(file.data)))
     return it
