@@ -2,13 +2,14 @@ __precompile__()
 module VegaDatasets
 
 using JSON, TextParse, DataValues, TableShowUtils, DataStructures,
-    TableTraits, IteratorInterfaceExtensions, TableTraitsUtils
+    TableTraits, IteratorInterfaceExtensions, TableTraitsUtils, FilePaths
 import IterableTables
 
 export dataset
 
 struct VegaDataset
-    data::OrderedDict{Symbol,Any}
+    data::Union{OrderedDict{Symbol,Any}, Void}
+    path::AbstractPath
 end
 
 IteratorInterfaceExtensions.isiterable(x::VegaDataset) = true
@@ -24,11 +25,15 @@ function TableTraits.getiterator(file::VegaDataset)
 end
 
 function Base.show(io::IO, source::VegaDataset)
-    TableShowUtils.printtable(io, getiterator(source), "Vega dataset")
+    if source.data!==nothing
+        TableShowUtils.printtable(io, getiterator(source), "Vega dataset")
+    end
 end
 
 function Base.show(io::IO, ::MIME"text/html", source::VegaDataset)
-    TableShowUtils.printHTMLtable(io, getiterator(source))
+    if source.data!==nothing
+        TableShowUtils.printHTMLtable(io, getiterator(source))
+    end
 end
 
 Base.Multimedia.mimewritable(::MIME"text/html", source::VegaDataset) = true
@@ -74,18 +79,29 @@ function load_json(filename)
         end
     end
  
-    return VegaDataset(OrderedDict{Symbol,Any}(Symbol(i[1])=>i[2] for i in zip(colnames,coldata)))
+    return VegaDataset(OrderedDict{Symbol,Any}(Symbol(i[1])=>i[2] for i in zip(colnames,coldata)), Path(normpath(filename)))
 end
 
 function load_csv(filename)
     data, header = csvread(filename)
 
-    return VegaDataset(OrderedDict{Symbol,Any}(Symbol(i[1])=>i[2] for i in zip(header,data)))
+    return VegaDataset(OrderedDict{Symbol,Any}(Symbol(i[1])=>i[2] for i in zip(header,data)), Path(normpath(filename)))
 end
 
 function dataset(name::AbstractString)
-    if isfile(joinpath(@__DIR__,"..","data", "data", name))
-        if splitext(name)[2]==".csv"
+    if in(name, ["earthquakes", "graticule", "londonBoroughs", "londonTubeLines", "miserables", "sf-temps", "us-10m", "world-110m"])
+        json_filename = normpath(joinpath(@__DIR__,"..","data", "data", "$name.json"))
+        csv_filename = normpath(joinpath(@__DIR__,"..","data","data", "$name.csv"))
+        tsv_filename = normpath(joinpath(@__DIR__,"..","data","data", "$name.tsv"))
+        if isfile(json_filename)
+            return VegaDataset(nothing, Path(joinpath(@__DIR__,"..","data", "data", json_filename)))
+        elseif isfile(csv_filename)
+            return VegaDataset(nothing, Path(joinpath(@__DIR__,"..","data", "data", csv_filename)))
+        elseif isfile(tsv_filename)
+            return VegaDataset(nothing, Path(joinpath(@__DIR__,"..","data", "data", tsv_filename)))
+        end        
+    elseif isfile(joinpath(@__DIR__,"..","data", "data", name))
+        if splitext(name)[2]==".csv" || splitext(name)[2]==".tsv"
             return load_csv(joinpath(@__DIR__,"..","data", "data", name))
         elseif splitext(name)[2]==".json"
             return load_json(joinpath(@__DIR__,"..","data", "data", name))
