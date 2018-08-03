@@ -1,6 +1,6 @@
 using VegaDatasets
 import IteratorInterfaceExtensions, TableTraits, TableShowUtils
-using Base.Test
+using Test
 
 @testset "VegaDatasets" begin
 
