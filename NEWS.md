@@ -1,3 +1,6 @@
+# VegaDatasets.jl v0.4.0 Release Notes
+* Drop julia 0.6 support, add julia 0.7 support
+
 # VegaDatasets.jl v0.3.0 Release Notes
 * Add support for path property
 

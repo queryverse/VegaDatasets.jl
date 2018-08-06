@@ -1,4 +1,3 @@
-__precompile__()
 module VegaDatasets
 
 using JSON, TextParse, DataValues, TableShowUtils, DataStructures,
@@ -8,7 +7,7 @@ import IterableTables
 export dataset
 
 struct VegaDataset
-    data::Union{OrderedDict{Symbol,Any}, Void}
+    data::Union{OrderedDict{Symbol,Any}, Nothing}
     path::AbstractPath
 end
 
@@ -52,14 +51,14 @@ function load_json(filename)
     coltypes = Type[]
     for col in colnames        
         curr_T = typeof(get(json_data[1], col, DataValues.NA))
-        if curr_T <: Void
+        if curr_T <: Nothing
             curr_T = typeof(DataValues.NA)
         end
         col_type = curr_T
 
         for row in 2:length(json_data)
             curr_T = typeof(get(json_data[row], col, DataValues.NA))
-            if curr_T <: Void
+            if curr_T <: Nothing
                 curr_T = typeof(DataValues.NA)
             end
             col_type = Base.promote_type(col_type, curr_T)
@@ -67,7 +66,7 @@ function load_json(filename)
         push!(coltypes, col_type)
     end
 
-    coldata = [ct <: DataValue ? DataValueVector{eltype(ct)}(nrows) : Vector{ct}(nrows) for ct in coltypes]
+    coldata = [ct <: DataValue ? DataValueVector{eltype(ct)}(nrows) : Vector{ct}(undef, nrows) for ct in coltypes]
 
     for (i,row) in enumerate(json_data)
         for colindx in 1:ncols
