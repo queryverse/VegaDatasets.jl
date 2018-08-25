@@ -35,7 +35,7 @@ function Base.show(io::IO, ::MIME"text/html", source::VegaDataset)
     end
 end
 
-Base.Multimedia.mimewritable(::MIME"text/html", source::VegaDataset) = true
+Base.Multimedia.showable(::MIME"text/html", source::VegaDataset) = true
 
 function load_json(filename)
     json_data = JSON.parsefile(filename)

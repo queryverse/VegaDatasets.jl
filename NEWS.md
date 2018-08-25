@@ -1,3 +1,6 @@
+# VegaDatasets.jl v0.4.1 Release Notes
+* Fix remaining julia 1.0 compat issues
+
 # VegaDatasets.jl v0.4.0 Release Notes
 * Drop julia 0.6 support, add julia 0.7 support
 
