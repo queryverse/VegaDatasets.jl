@@ -1,3 +1,6 @@
+# VegaDatasets.jl v0.5.0 Release Notes
+* Add support for vnd.dataresource+json
+
 # VegaDatasets.jl v0.4.1 Release Notes
 * Fix remaining julia 1.0 compat issues
 
