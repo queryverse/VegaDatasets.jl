@@ -37,6 +37,14 @@ end
 
 Base.Multimedia.showable(::MIME"text/html", source::VegaDataset) = true
 
+function Base.show(io::IO, ::MIME"application/vnd.dataresource+json", source::VegaDataset)
+    if source.data!==nothing
+        TableShowUtils.printdataresource(io, getiterator(source))
+    end
+end
+
+Base.Multimedia.showable(::MIME"application/vnd.dataresource+json", source::VegaDataset) = true
+
 function load_json(filename)
     json_data = JSON.parsefile(filename)
 
