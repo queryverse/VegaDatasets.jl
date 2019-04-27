@@ -1,3 +1,7 @@
+# VegaDatasets.jl v1.0.0 Release Notes
+* Drop julia 0.7 support
+* Migrate to Project.toml
+
 # VegaDatasets.jl v0.5.0 Release Notes
 * Add support for vnd.dataresource+json
 
