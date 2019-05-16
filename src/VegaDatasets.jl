@@ -18,7 +18,7 @@ function Base.collect(vd::VegaDataset)
     return collect(getiterator(vd))
 end
 
-function TableTraits.getiterator(file::VegaDataset)
+function IteratorInterfaceExtensions.getiterator(file::VegaDataset)
     it = TableTraitsUtils.create_tableiterator(collect(values(file.data)), collect(keys(file.data)))
     return it
 end
