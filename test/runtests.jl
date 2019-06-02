@@ -4,6 +4,8 @@ using Test
 
 @testset "VegaDatasets" begin
 
+@testset "Core" begin
+
 for filename in readdir(joinpath(@__DIR__,"..","data","data"))
     if splitext(filename)[2]==".json" || splitext(filename)[2]==".csv"
         if !in(splitdir(filename)[2], ["earthquakes.json", "graticule.json", "londonBoroughs.json", "londonTubeLines.json", "miserables.json", "sf-temps.csv", "us-10m.json", "world-110m.json"])
@@ -79,5 +81,7 @@ world_110m = dataset("world-110m")
 @test sprint(show, sf_temps) == ""
 @test sprint(show, us_10m) == ""
 @test sprint(show, world_110m) == ""
+
+end
 
 end
