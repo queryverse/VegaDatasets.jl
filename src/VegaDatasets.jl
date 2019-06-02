@@ -46,7 +46,7 @@ end
 Base.Multimedia.showable(::MIME"application/vnd.dataresource+json", source::VegaDataset) = true
 
 function load_json(filename)
-    json_data = JSON.parsefile(filename)
+    json_data = JSON.parsefile(filename, dicttype=DataStructures.OrderedDict)
 
     nrows = length(json_data)
 
@@ -57,7 +57,7 @@ function load_json(filename)
 
     #Get column types
     coltypes = Type[]
-    for col in colnames        
+    for col in colnames
         curr_T = typeof(get(json_data[1], col, DataValues.NA))
         if curr_T <: Nothing
             curr_T = typeof(DataValues.NA)
@@ -85,7 +85,7 @@ function load_json(filename)
             coldata[colindx][i] = v
         end
     end
- 
+
     return VegaDataset(OrderedDict{Symbol,Any}(Symbol(i[1])=>i[2] for i in zip(colnames,coldata)), Path(normpath(filename)))
 end
 
@@ -106,7 +106,7 @@ function dataset(name::AbstractString)
             return VegaDataset(nothing, Path(joinpath(@__DIR__,"..","data", "data", csv_filename)))
         elseif isfile(tsv_filename)
             return VegaDataset(nothing, Path(joinpath(@__DIR__,"..","data", "data", tsv_filename)))
-        end        
+        end
     elseif isfile(joinpath(@__DIR__,"..","data", "data", name))
         if splitext(name)[2]==".csv" || splitext(name)[2]==".tsv"
             return load_csv(joinpath(@__DIR__,"..","data", "data", name))
@@ -114,7 +114,7 @@ function dataset(name::AbstractString)
             return load_json(joinpath(@__DIR__,"..","data", "data", name))
         else
             error("Unknown dataset.")
-        end 
+        end
     else
         json_filename = joinpath(@__DIR__,"..","data", "data", "$name.json")
         csv_filename = joinpath(@__DIR__,"..","data","data", "$name.csv")
