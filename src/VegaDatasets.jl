@@ -97,6 +97,7 @@ end
 
 function dataset(name::AbstractString)
     if in(name, ["earthquakes", "graticule", "londonBoroughs", "londonTubeLines", "miserables", "sf-temps", "us-10m", "world-110m"])
+        @warn "Dataset not tabular: data field set to nothing, see path field for data file"
         json_filename = normpath(joinpath(@__DIR__,"..","data", "data", "$name.json"))
         csv_filename = normpath(joinpath(@__DIR__,"..","data","data", "$name.csv"))
         tsv_filename = normpath(joinpath(@__DIR__,"..","data","data", "$name.tsv"))
