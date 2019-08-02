@@ -1,5 +1,5 @@
 using VegaDatasets
-import IteratorInterfaceExtensions, TableTraits, TableShowUtils
+import IteratorInterfaceExtensions, TableTraits, TableShowUtils, FilePaths
 using Test
 
 @testset "VegaDatasets" begin
@@ -61,14 +61,14 @@ miserables = dataset("miserables")
 sf_temps = dataset("sf-temps")
 us_10m = dataset("us-10m")
 world_110m = dataset("world-110m")
-@test sprint(show, earthquakes) == ""
-@test sprint(show, graticule) == ""
-@test sprint(show, londonBoroughs) == ""
-@test sprint(show, londonTubeLines) == ""
-@test sprint(show, miserables) == ""
-@test sprint(show, sf_temps) == ""
-@test sprint(show, us_10m) == ""
-@test sprint(show, world_110m) == ""
+@test typeof(earthquakes) <: FilePaths.AbstractPath
+@test typeof(graticule) <: FilePaths.AbstractPath
+@test typeof(londonBoroughs) <: FilePaths.AbstractPath
+@test typeof(londonTubeLines) <: FilePaths.AbstractPath
+@test typeof(miserables) <: FilePaths.AbstractPath
+@test typeof(sf_temps) <: FilePaths.AbstractPath
+@test typeof(us_10m) <: FilePaths.AbstractPath
+@test typeof(world_110m) <: FilePaths.AbstractPath
 
 end
 

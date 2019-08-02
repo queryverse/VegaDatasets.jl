@@ -45,3 +45,16 @@ using VegaLite, VegaDatasets
 
 dataset("iris") |> @vlplot(:point, x=:sepalLength, y=:petalWidth)
 ````
+
+### Non-tabular datasets
+
+The following datasets are not tabular in nature. A `Path` to the file location is returned instead of the data.
+
+* earthquakes
+* graticule
+* londonBoroughs
+* londonTubeLines
+* miserables
+* sf_temps
+* us_10m
+* world_110m
