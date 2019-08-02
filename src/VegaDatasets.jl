@@ -97,16 +97,16 @@ end
 
 function dataset(name::AbstractString)
     if in(name, ["earthquakes", "graticule", "londonBoroughs", "londonTubeLines", "miserables", "sf-temps", "us-10m", "world-110m"])
-        @warn "Dataset not tabular: data field set to nothing, see path field for data file"
+        @warn "Dataset not tabular: returned Path instead of dataset"
         json_filename = normpath(joinpath(@__DIR__,"..","data", "data", "$name.json"))
         csv_filename = normpath(joinpath(@__DIR__,"..","data","data", "$name.csv"))
         tsv_filename = normpath(joinpath(@__DIR__,"..","data","data", "$name.tsv"))
         if isfile(json_filename)
-            return VegaDataset(nothing, Path(joinpath(@__DIR__,"..","data", "data", json_filename)))
+            return Path(json_filename)
         elseif isfile(csv_filename)
-            return VegaDataset(nothing, Path(joinpath(@__DIR__,"..","data", "data", csv_filename)))
+            return Path(csv_filename)
         elseif isfile(tsv_filename)
-            return VegaDataset(nothing, Path(joinpath(@__DIR__,"..","data", "data", tsv_filename)))
+            return Path(tsv_filename)
         end
     elseif isfile(joinpath(@__DIR__,"..","data", "data", name))
         if splitext(name)[2]==".csv" || splitext(name)[2]==".tsv"
