@@ -48,13 +48,14 @@ dataset("iris") |> @vlplot(:point, x=:sepalLength, y=:petalWidth)
 
 ### Non-tabular datasets
 
-The following datasets are not tabular in nature. A `Path` to the file location is returned instead of the data.
+The following datasets are not tabular in nature:
 
 * earthquakes
 * graticule
 * londonBoroughs
 * londonTubeLines
 * miserables
-* sf_temps
 * us_10m
 * world_110m
+
+In those cases an object is returned that can be lowered to JSON, or one can access the `.path` property for such an object to get a path to the location of the dataset.
