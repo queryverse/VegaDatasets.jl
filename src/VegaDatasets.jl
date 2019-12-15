@@ -11,6 +11,17 @@ struct VegaDataset
     path::AbstractPath
 end
 
+struct VegaJSONDataset
+    data::OrderedDict
+    path::AbstractPath
+end
+
+JSON.lower(x::VegaJSONDataset) = x.data
+
+function Base.show(io::IO, source::VegaJSONDataset)
+    print(io, "Vega JSON Dataset")
+end
+
 IteratorInterfaceExtensions.isiterable(x::VegaDataset) = true
 TableTraits.isiterabletable(x::VegaDataset) = true
 
@@ -89,28 +100,23 @@ function load_json(filename)
     return VegaDataset(OrderedDict{Symbol,Any}(Symbol(i[1])=>i[2] for i in zip(colnames,coldata)), Path(normpath(filename)))
 end
 
-function load_csv(filename)
-    data, header = csvread(filename)
+function load_csv(filename; delim=',')
+    data, header = csvread(filename, delim)
 
     return VegaDataset(OrderedDict{Symbol,Any}(Symbol(i[1])=>i[2] for i in zip(header,data)), Path(normpath(filename)))
 end
 
 function dataset(name::AbstractString)
-    if in(name, ["earthquakes", "graticule", "londonBoroughs", "londonTubeLines", "miserables", "sf-temps", "us-10m", "world-110m"])
-        @warn "Dataset not tabular: returned Path instead of dataset"
+    if in(name, ["sf-temps"])
+        error("This dataset is currently not supported.")
+    elseif in(name, ["earthquakes", "graticule", "londonBoroughs", "londonTubeLines", "miserables", "us-10m", "world-110m"])
         json_filename = normpath(joinpath(@__DIR__,"..","data", "data", "$name.json"))
-        csv_filename = normpath(joinpath(@__DIR__,"..","data","data", "$name.csv"))
-        tsv_filename = normpath(joinpath(@__DIR__,"..","data","data", "$name.tsv"))
-        if isfile(json_filename)
-            return Path(json_filename)
-        elseif isfile(csv_filename)
-            return Path(csv_filename)
-        elseif isfile(tsv_filename)
-            return Path(tsv_filename)
-        end
+        return VegaJSONDataset(JSON.parsefile(json_filename, dicttype=DataStructures.OrderedDict), Path(json_filename))
     elseif isfile(joinpath(@__DIR__,"..","data", "data", name))
-        if splitext(name)[2]==".csv" || splitext(name)[2]==".tsv"
+        if splitext(name)[2]==".csv"
             return load_csv(joinpath(@__DIR__,"..","data", "data", name))
+        elseif splitext(name)[2]==".tsv"
+            return load_csv(joinpath(@__DIR__,"..","data", "data", name), delim='\t')
         elseif splitext(name)[2]==".json"
             return load_json(joinpath(@__DIR__,"..","data", "data", name))
         else
@@ -119,10 +125,13 @@ function dataset(name::AbstractString)
     else
         json_filename = joinpath(@__DIR__,"..","data", "data", "$name.json")
         csv_filename = joinpath(@__DIR__,"..","data","data", "$name.csv")
+        tsv_filename = normpath(joinpath(@__DIR__,"..","data","data", "$name.tsv"))
         if isfile(json_filename)
             return load_json(json_filename)
         elseif isfile(csv_filename)
             return load_csv(csv_filename)
+        elseif isfile(tsv_filename)
+            return load_csv(tsv_filename, delim='\t')
         else
             error("Unknown dataset.")
         end
