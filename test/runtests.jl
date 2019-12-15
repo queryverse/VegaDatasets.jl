@@ -58,17 +58,17 @@ graticule = dataset("graticule")
 londonBoroughs = dataset("londonBoroughs")
 londonTubeLines = dataset("londonTubeLines")
 miserables = dataset("miserables")
-sf_temps = dataset("sf-temps")
+# sf_temps = dataset("sf-temps")
 us_10m = dataset("us-10m")
 world_110m = dataset("world-110m")
-@test typeof(earthquakes) <: FilePaths.AbstractPath
-@test typeof(graticule) <: FilePaths.AbstractPath
-@test typeof(londonBoroughs) <: FilePaths.AbstractPath
-@test typeof(londonTubeLines) <: FilePaths.AbstractPath
-@test typeof(miserables) <: FilePaths.AbstractPath
-@test typeof(sf_temps) <: FilePaths.AbstractPath
-@test typeof(us_10m) <: FilePaths.AbstractPath
-@test typeof(world_110m) <: FilePaths.AbstractPath
+@test typeof(earthquakes) <: VegaDatasets.VegaJSONDataset
+@test typeof(graticule) <: VegaDatasets.VegaJSONDataset
+@test typeof(londonBoroughs) <: VegaDatasets.VegaJSONDataset
+@test typeof(londonTubeLines) <: VegaDatasets.VegaJSONDataset
+@test typeof(miserables) <: VegaDatasets.VegaJSONDataset
+# @test typeof(sf_temps) <: VegaDatasets.VegaJSONDataset
+@test typeof(us_10m) <: VegaDatasets.VegaJSONDataset
+@test typeof(world_110m) <: VegaDatasets.VegaJSONDataset
 
 end
 
