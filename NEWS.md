@@ -1,3 +1,6 @@
+# VegaDatasets.jl v2.0.0 Release Notes
+* Change the API for non-tabular datasets
+
 # VegaDatasets.jl v1.0.0 Release Notes
 * Drop julia 0.7 support
 * Migrate to Project.toml
