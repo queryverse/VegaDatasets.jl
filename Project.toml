@@ -1,6 +1,6 @@
 name = "VegaDatasets"
 uuid = "0ae4a718-28b7-58ec-9efb-cded64d6d5b4"
-version = "1.0.1-DEV"
+version = "2.0.0"
 
 [deps]
 DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
