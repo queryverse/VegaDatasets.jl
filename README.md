@@ -1,25 +1,53 @@
 # Vega Datasets
 
+[![npm version](https://img.shields.io/npm/v/vega-datasets.svg)](https://www.npmjs.com/package/vega-datasets)
+[![Build Status](https://travis-ci.com/vega/vega-datasets.svg?branch=master)](https://travis-ci.com/vega/vega-datasets)
+
 Collection of datasets used in Vega and Vega-Lite examples. This data lives at https://github.com/vega/vega-datasets.
 
-Common repository for example datasets used by vega related projects. Keep changes to this repository minimal as other projects (vega, vega-editor, vega-lite, polestar, voyager) use this data in their tests and for examples.
+Common repository for example datasets used by Vega related projects. Keep changes to this repository minimal as other projects (Vega, Vega Editor, Vega-Lite, Polestar, Voyager) use this data in their tests and for examples.
 
-The list of sources is in [sources.md](https://github.com/vega/vega-datasets/blob/gh-pages/sources.md).
+The list of sources is in [sources.md](https://github.com/vega/vega-datasets/blob/master/sources.md).
 
-To access these datasets from Python, you can use the [Vega datasets python package](https://github.com/jakevdp/vega_datasets).
+To access the data in Observable, you can import `vega-dataset`. Try our [example notebook](https://observablehq.com/@vega/vega-datasets). To access these datasets from Python, you can use the [Vega datasets python package](https://github.com/jakevdp/vega_datasets). To access them from Julia, you can use the [VegaDatasets.jl julia package](https://github.com/davidanthoff/VegaDatasets.jl).
+
+The [Vega datasets preview notebook](https://observablehq.com/@randomfractals/vega-datasets) offers a quick way to browse the content of the available datasets.
 
 ## How to use it
 
 ### NPM
 
-Add this to your package.json:
-```json
-"vega-datasets": "vega/vega-datasets#gh-pages"
+#### Get the data on disk
+
+```
+npm i vega-datasets
+```
+
+Now you have all the datasets in a folder in `node_modules/vega-datasets/data/`.
+
+#### Get the URLs or Data via URL
+
+```
+npm i vega-datasets
+```
+
+Now you can import `data = require('vega-datasets')` and access the URLs of any dataset with `data[NAME].url`. `data[NAME]()` returns a promise that resolves to the actual data fetched from the URL. We use d3-dsv to parse CSV files.
+
+Here is a full example
+
+```ts
+import data from 'vega-datasets';
+
+const cars = await data['cars.json']();
+// equivalent to
+// const cars = await (await fetch(data['cars.json'].url)).json();
+
+console.log(cars);
 ```
 
 ### HTTP
 
-You can also get the data directly via HTTP served by Github like:
+You can also get the data directly via HTTP served by GitHub like:
 
 https://vega.github.io/vega-datasets/data/cars.json
 
@@ -38,6 +66,51 @@ git subtree pull --prefix path-to-data git@github.com:vega/vega-datasets.git gh-
 ```
 
 ## Changelog
+
+### Version 2.0
+
+- Update `weather.csv` and `seattle-weather.csv` with better encoded weather condition, indicating more rain.
+
+### Version 1.30
+
+- Update `seattle-temps` with better sourced data.
+- Update `sf-temps` with better sourced data.
+
+### Version 1.29
+
+- Add `ohlc.json`. Thanks to @eitanlees!
+
+### Version 1.28
+
+- Add `annual-precip.json`. Thanks to @mattijn!
+
+### Version 1.27
+
+- Add `volcano.json`.
+
+### Version 1.26
+
+- Add `uniform-2d.json`.
+
+### Version 1.22
+
+- Add `windvectors.csv`. Thanks to @jwoLondon!
+
+### Version 1.20
+
+- Add `us-unemployment.csv`. Thanks to @palewire!
+
+### Version 1.19
+
+- Remove time in `weather.csv`.
+
+### Version 1.18
+
+- Fix typo in city name in `us-state-capitals.json`
+
+### Version 1.17
+
+- Made data consistent with respect to origin by making them originated from a Unix platform.
 
 ### Version 1.16
 
