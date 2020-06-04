@@ -1,5 +1,9 @@
 module VegaDatasets
 
+if isdefined(Base, :Experimental) && isdefined(Base.Experimental, Symbol("@optlevel"))
+    @eval Base.Experimental.@optlevel 0
+end
+
 using JSON, TextParse, DataValues, TableShowUtils, DataStructures,
     TableTraits, IteratorInterfaceExtensions, TableTraitsUtils, FilePaths
 import IterableTables
