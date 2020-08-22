@@ -1,14 +1,14 @@
 using Documenter, VegaDatasets
 
 makedocs(
-	modules = [VegaDatasets],
-	sitename = "VegaDatasets.jl",
+	modules=[VegaDatasets],
+	sitename="VegaDatasets.jl",
 	analytics="UA-132838790-1",
-	pages = [
+	pages=[
         "Introduction" => "index.md"
     ]
 )
 
 deploydocs(
-    repo = "github.com/queryverse/VegaDatasets.jl.git"
+    repo="github.com/queryverse/VegaDatasets.jl.git"
 )
