@@ -8,7 +8,7 @@ using Test
 
         for filename in readdir(joinpath(@__DIR__, "..", "data", "data"))
             if splitext(filename)[2] == ".json" || splitext(filename)[2] == ".csv"
-                if !in(splitdir(filename)[2], ["earthquakes.json", "graticule.json", "londonBoroughs.json", "londonTubeLines.json", "miserables.json", "sf-temps.csv", "us-10m.json", "world-110m.json"])
+                if !in(splitdir(filename)[2], ["earthquakes.json", "graticule.json", "londonBoroughs.json", "londonTubeLines.json", "miserables.json", "sf-temps.csv", "us-10m.json", "world-110m.json", "annual-precip.json", "volcano.json"])
                     vd = dataset(filename)
 
                     @test IteratorInterfaceExtensions.isiterable(vd) == true
