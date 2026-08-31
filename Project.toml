@@ -15,20 +15,21 @@ IteratorInterfaceExtensions = "82899510-4779-5014-852e-03e436cf321d"
 TableTraits = "3783bdb8-4a98-5b6b-af9a-565f29a5fe9c"
 
 [extras]
+TestItemRunner = "f8b46487-2199-4994-9208-9a1283c18c0a"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
 TableTraits = "0.3.1, 0.4, 1"
-TableShowUtils = "0.2"
+TableShowUtils = "0.2, 0.3, 1"
 IteratorInterfaceExtensions = "0.1.1, 1"
 JSON = "0.19, 0.20, 0.21"
 TextParse = "0.6, 0.7, 0.8, 0.9, 1.0"
 DataStructures = "0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18"
 TableTraitsUtils = "0.2.1, 0.3, 0.4, 1"
-julia = "1"
-DataValues = "0.4.4"
+julia = "1.1"
+DataValues = "0.4.4, 0.5, 1"
 FilePaths = "0.7, 0.8"
 IterableTables = "0.8.3, 0.9, 0.10, 0.11, 1"
 
 [targets]
-test = ["Test"]
+test = ["Test", "TestItemRunner"]
